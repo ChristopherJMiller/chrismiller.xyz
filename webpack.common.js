@@ -15,7 +15,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(jpg|jpeg|png|webp)$/i,
+        use: {
+          loader: "responsive-loader",
+          options: {
+            adapter: require("responsive-loader/sharp"),
+          },
+        },
+      },
+      {
+        test: /\.(svg|gif)$/i,
         type: "asset/resource",
       },
       {

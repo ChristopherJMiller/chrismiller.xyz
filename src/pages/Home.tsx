@@ -4,7 +4,7 @@ export default () => {
   return (
     <>
       <main>
-        <div>Home</div>
+        <div>Hi! This site is currently under construction but is deployed for testing. Check back later.</div>
       </main>
     </>
   )

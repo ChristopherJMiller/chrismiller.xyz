@@ -46,7 +46,8 @@
     "mini-css-extract-plugin": "^1.6.2",
     "postcss-loader": "^6.1.1",
     "react-lazy-load-image-component": "^1.5.1",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "responsive-loader": "^2.3.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
