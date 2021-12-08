@@ -26,6 +26,19 @@ div.selected > a {
   font: inherit;
 }
 
+a {
+  color: #867BB7;
+}
+
+.disabled {
+  color: #C3BDDB;
+}
+
+hr {
+  border-color: #ccc;
+  border-bottom-width: 1px;
+}
+
 img.rounded {
   object-fit: cover;
   border-radius: 50%;

@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@ajusa/lit": "^1.1.0",
+    "bootstrap-icons": "^1.7.2",
     "mini-css-extract-plugin": "^1.6.2",
     "postcss-loader": "^6.1.1",
     "react-lazy-load-image-component": "^1.5.1",

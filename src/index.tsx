@@ -7,6 +7,7 @@ import App from './App';
 import "@ajusa/lit/dist/lit.css";
 import "@ajusa/lit/dist/util.css";
 import "./styles/index.scss"
+import "bootstrap-icons/font/bootstrap-icons.scss";
 
 ReactDOM.render(
   <BrowserRouter>
