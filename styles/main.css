@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+img.rounded {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 10em;
+  width: 10em;
+}

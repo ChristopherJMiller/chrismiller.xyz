@@ -1,0 +1,21 @@
+block variables
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="description", content="Website of Christopher Miller")
+    meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
+    link(rel="icon", href="/favicon.png")
+    link(rel="stylesheet", href="/main.css")
+    title Chris Miller - #{title}
+    block scripts
+  body(class="bg-neutral-100")
+    div.container.mx-auto.my-2
+      div.flex.justify-center.py-4
+        img.object-none.object-center.rounded(src="img/me.jpg")
+      div.flex.flex-row.justify-center.gap-6
+        - var navs = [['Home', '/index.html'], ['Blog', '/blog.html']]
+        each navlink in navs 
+          include navlink.pug
+
+      block content
