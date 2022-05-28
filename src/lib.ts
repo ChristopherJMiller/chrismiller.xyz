@@ -93,6 +93,8 @@ export const PROJECTS: Project[] = [
   }
 ];
 
+export const TAGS = Array.from(new Set(PROJECTS.flatMap(proj => proj.tags)).values());
+
 export interface ProjectURL {
   title: string,
   url: string,
