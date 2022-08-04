@@ -1,17 +1,46 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { useSearchParams } from "react-router-dom";
 import { getPost, getPostList } from "./api";
-import { Post, PostListing, processPostContent } from "./post";
+import { Post, PostListing } from "./post";
+
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
 
 const App = () => {
   const [postListings, setPostListings] = useState<PostListing[] | null>(null);
   const [post, setPost] = useState<Post | null>(null);
+  const [postContent, setPostContent] = useState<string>();
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const postParam: string | null = urlParams.get("post");
 
-  console.log(postParam)
+
+  useEffect(() => {
+    const processP = async () => {
+      console.log(post!!.content)
+      const result = await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeStringify)
+        .process(post!!.content)
+
+      const classesApplied = result
+        .toString()
+        .replaceAll("<p>", `<p class="my-4 text-serif">`)
+        .replaceAll("<h1>", `<h1 class="mt-3 text-2xl text-semibold font-medium">`)
+        .replaceAll("<h2>", `<h2 class="mt-3 text-xl text-semibold font-medium">`)
+        
+      setPostContent(classesApplied);
+    }
+
+    if (post) {
+      processP();
+    }
+  }, [post]);
 
   useEffect(() => {
     if (postParam) {
@@ -37,7 +66,7 @@ const App = () => {
     <div className="flex flex-col w-3/4 justify-between mx-auto">
       <div className="text-3xl font-bold underline">{post.title}</div>
       <div className="text-xl font-light">{post.date}</div>
-      <div className="text-lg">{processPostContent(post.content)}</div>
+      {postContent ? <div dangerouslySetInnerHTML={{ __html: postContent}} /> : null }
       <a className="text-light text-xl underline" href={post.song_link}>Today's Song</a>
     </div>
   ) : null
