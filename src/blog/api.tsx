@@ -1,6 +1,6 @@
 import { Post, PostListing } from "./post";
 
-const ROOT_URL = "http://localhost:8080/blogapi"; //"https://chrismiller.xyz/blogapi";
+const ROOT_URL = "https://chrismiller.xyz/blogapi";
 
 export const getPostList = async (): Promise<PostListing[]> => {
   const response = await fetch(`${ROOT_URL}/index.json`);
