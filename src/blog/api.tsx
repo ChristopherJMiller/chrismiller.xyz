@@ -13,3 +13,6 @@ export const getPost = async (post: string): Promise<Post> => {
   const data: Post = await response.json();
   return data;
 }
+
+export const getPostContentImage = (post: Post): string => `${ROOT_URL}/images/${post.cover_photo}`;
+export const getPostSmallContentImage = (post: Post): string => `${ROOT_URL}/images/${post.small_cover_photo}`;

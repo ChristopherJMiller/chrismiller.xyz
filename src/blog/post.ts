@@ -10,6 +10,7 @@ export interface Post {
   title: string,
   date: string,
   cover_photo: string,
+  small_cover_photo: string,
   cover_caption: string,
   tags: string[],
   song_link: string,

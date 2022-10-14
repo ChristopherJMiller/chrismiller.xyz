@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { getPost, getPostList } from "./api";
+import { getPost, getPostContentImage, getPostList, getPostSmallContentImage } from "./api";
 import { Post, PostListing } from "./post";
 
 import {unified} from 'unified'
@@ -8,6 +8,9 @@ import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const App = () => {
   const [postListings, setPostListings] = useState<PostListing[] | null>(null);
@@ -63,11 +66,18 @@ const App = () => {
   ) : null;  
 
   const blogPost = post ? (
-    <div className="flex flex-col w-3/4 justify-between mx-auto">
+    <div className="my-6 flex flex-col w-3/4 justify-between mx-auto">
+      <LazyLoadImage
+        alt={post.cover_caption}
+        placeholderSrc={getPostSmallContentImage(post)}
+        effect="blur"
+        src={getPostContentImage(post)} />
+      <span className="my-2 text-lg font-light">{post.cover_caption}</span>
       <div className="text-3xl font-bold underline">{post.title}</div>
       <div className="text-xl font-light">{post.date}</div>
       {postContent ? <div dangerouslySetInnerHTML={{ __html: postContent}} /> : null }
-      <a className="text-light text-xl underline" href={post.song_link}>Today's Song</a>
+      <p className="text-light text-2xl underline my-3">Today's Song</p>
+      <iframe style={{ borderRadius: "12px"}} src={post.song_link.replace("track", "embed/track").replace("album", "embed/album")} width="100%" height="80" frameBorder="0" allow="clipboard-write; encrypted-media"></iframe>
     </div>
   ) : null
 
