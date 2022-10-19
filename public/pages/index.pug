@@ -1,8 +1,13 @@
 extends ../layouts/global
 
+block scripts 
+  script(type='module' src='dist/home/index.js')
+
 block variables 
   - const title = "Home"
 
 block content
-  h1.text-3xl.font-bold.underline Hello world!
-  p Hi! This site is currently under construction but is deployed for testing. Check back later.
+  h1.text-4xl.font-bold.text-center.mt-8 Chris Miller
+  p.text-center.italic Computer Engineer / UX Designer / Maker
+  div.text-2xl.underline.mt-4.mb-3 Latest Blog Post
+  div#root

@@ -11,6 +11,7 @@ import rehypeStringify from 'rehype-stringify'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { BlogEntry } from "./entry";
 
 const App = () => {
   const [postListings, setPostListings] = useState<PostListing[] | null>(null);
@@ -23,7 +24,6 @@ const App = () => {
 
   useEffect(() => {
     const processP = async () => {
-      console.log(post!!.content)
       const result = await unified()
         .use(remarkParse)
         .use(remarkGfm)
@@ -53,17 +53,10 @@ const App = () => {
     }
   }, []);
 
-  console.log(postListings)
-
   const loading = postListings || post ? null : <div className="text-xl text-center my-5">Loading...</div>;
 
-  const blogHeader = postListings ? <div className="text-3xl font-bold underline">Blog</div> : null;
-  const blogEntries = postListings ? postListings.map((post) => 
-    <div className="flex flex-col my-10">
-      <a href={`/blog.html?post=${post.path}`} className="text-xl font-semibold underline">{post.name}</a>
-      <div>{post.description}</div>
-    </div>
-  ) : null;  
+  const blogHeader = postListings ? <div className="text-3xl font-bold underline mb-3">Blog</div> : null;
+  const blogEntries = postListings ? postListings.map((post) => <BlogEntry post={post} />) : null;  
 
   const blogPost = post ? (
     <div className="my-6 flex flex-col w-3/4 justify-between mx-auto">
