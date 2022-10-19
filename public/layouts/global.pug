@@ -9,12 +9,12 @@ html(lang="en")
     link(rel="stylesheet", href="/main.css")
     title Chris Miller - #{title}
     block scripts
-  body(class="background-color: linear-gradient(83deg, rgba(255,246,230,1) 0%, rgba(255,247,235,1) 25%, rgba(255,251,245,1) 50%, rgba(255,247,235,1) 75%, rgba(255,246,230,1) 100%)")
+  body(class="bg-stone-50 dark:bg-stone-800 text-black dark:text-slate-200")
     div.container.mx-auto.my-2
       div.flex.justify-center.py-4
         img.object-none.object-center.rounded(src="img/me.jpg")
       div.flex.flex-row.justify-center.gap-6
-        - var navs = [['Home', '/index.html'], ['Blog', '/blog.html'], ['Tech', '/tech.html'], ['Resume', 'https://github.com/ChristopherJMiller/Resume/blob/master/resume.pdf']]
+        - var navs = [['Home', '/index.html'], ['Blog', '/blog.html'], ['Tech', '/tech.html'], ['Resume', 'https://raw.githubusercontent.com/ChristopherJMiller/Resume/master/resume.pdf']]
         each navlink in navs 
           include navlink.pug
 

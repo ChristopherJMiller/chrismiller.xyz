@@ -104,5 +104,5 @@ export interface Project {
   name: string,
   description: string,
   urls: ProjectURL[],
-  tags?: string[]
+  tags: string[]
 }
