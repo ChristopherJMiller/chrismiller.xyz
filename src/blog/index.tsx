@@ -36,6 +36,7 @@ const App = () => {
         .replaceAll("<p>", `<p class="my-4 text-serif">`)
         .replaceAll("<h1>", `<h1 class="mt-3 text-2xl text-semibold font-medium">`)
         .replaceAll("<h2>", `<h2 class="mt-3 text-xl text-semibold font-medium">`)
+        .replaceAll("<h3>", `<h3 class="mt-3 text-lg text-semibold font-medium">`)
         
       setPostContent(classesApplied);
     }
