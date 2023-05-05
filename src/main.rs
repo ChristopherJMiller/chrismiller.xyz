@@ -1,19 +1,16 @@
 use std::net::SocketAddr;
 
-use axum::extract::{FromRef, FromRequestParts, State};
-use axum::http::request::Parts;
-use axum::http::StatusCode;
-use axum::response::Json;
-use axum::routing::{get, post};
-use axum::{async_trait, Router};
-use diesel::prelude::*;
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
-use diesel_async::{AsyncPgConnection, RunQueryDsl};
-use serde::{Deserialize, Serialize};
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
-type Pool = bb8::Pool<AsyncDieselConnectionManager<AsyncPgConnection>>;
+use crate::controllers::build_router;
+use crate::models::run_migrations;
+
+mod controllers;
+pub mod models;
+pub mod schema;
+mod views;
 
 #[tokio::main]
 async fn main() {
@@ -24,15 +21,17 @@ async fn main() {
 
   let db_url = std::env::var("DATABASE_URL").expect("DATABASE_URL not defined");
 
+  run_migrations(&db_url);
+
   let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
   let pool = bb8::Pool::builder()
     .build(config)
     .await
     .expect("Failed to build database pool");
 
-  let app = Router::new().with_state(pool);
+  let app = build_router(pool);
 
-  let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+  let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
   tracing::debug!("listening on {}", addr);
 
   axum::Server::bind(&addr).serve(app.into_make_service()).await.unwrap();
