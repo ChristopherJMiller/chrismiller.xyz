@@ -1,6 +1,6 @@
 use axum::extract::Path;
 use axum::response::Html;
-use rss::{ChannelBuilder, Item, Channel};
+use rss::{ChannelBuilder, Item};
 
 use crate::models::posts::Post;
 use crate::models::{DatabaseConnection, DatabaseError};

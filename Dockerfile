@@ -8,7 +8,7 @@ RUN --mount=type=cache,target=/app/node_modules yarn install && NODE_ENV=product
 
 FROM docker.io/rust:alpine as BUILDER
 
-WORKDIR /rust
+WORKDIR /app
 
 RUN apk add --update build-base
 
