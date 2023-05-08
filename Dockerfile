@@ -1,4 +1,4 @@
-FROM docker.io/node:19-alpine as BUILDER
+FROM docker.io/node:19-alpine as CSSBUILDER
 
 WORKDIR /app
 
@@ -6,7 +6,23 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/node_modules yarn install && NODE_ENV=production yarn build
 
-FROM docker.io/nginx:1.23.1-alpine
+FROM docker.io/rust:alpine as BUILDER
 
-COPY --from=BUILDER /app/build /usr/share/nginx/html
-ADD nginx.conf /etc/nginx/nginx.conf
+WORKDIR /rust
+
+RUN apk add --update build-base
+
+ADD . .
+
+RUN --mount=type=cache,target=/app/target cargo install --locked --root install --path .
+
+FROM gcr.io/distroless/cc
+
+COPY --from=BUILDER /usr/lib /usr/lib
+COPY --from=BUILDER /lib /lib
+COPY --from=BUILDER /app/install /app/
+COPY --from=BUILDER /app/public /app/public
+COPY --from=CSSBUILDER /app/dist /app/dist
+
+CMD ["/app/install/bin/chrismiller-xyz"]
+
