@@ -1,0 +1,13 @@
+text-2xl
+text-xl
+text-lg
+font-bold
+p-2
+italic
+underline
+code
+strikethrough
+font-mono
+ml-4
+list-disc
+list-decimal

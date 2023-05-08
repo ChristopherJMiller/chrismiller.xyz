@@ -8,5 +8,6 @@ diesel::table! {
         image_url -> Nullable<Text>,
         title -> Text,
         body -> Text,
+        plaintext_body -> Text,
     }
 }

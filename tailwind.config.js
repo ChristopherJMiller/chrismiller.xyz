@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['./src/**/*.rs'],
+  content: ['./src/**/*.rs', './allowlist.txt'],
   theme: { 
     extend: {},
     container: {

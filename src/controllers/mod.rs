@@ -12,6 +12,8 @@ pub fn build_router(pool: Pool) -> Router {
     // Routes
     .route("/", get(index::index))
     .route("/posts", get(posts::list))
+    .route("/blog/:blog_url", get(posts::get))
+    .route("/rss.xml", get(posts::rss))
 
     // Asset Serving
     .nest_service("/assets", ServeDir::new("dist"))

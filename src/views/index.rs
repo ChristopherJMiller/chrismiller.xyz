@@ -1,9 +1,11 @@
 use markup::DynRender;
 
+use crate::models::posts::Post;
+
 use super::Layout;
 
 #[inline(always)]
-pub fn render<'a>() -> Layout<'a, DynRender<'a>> {
+pub fn render<'a>(recent_post: &'a Post) -> Layout<'a, DynRender<'a>> {
   Layout {
     location: "/",
     title: "Home",
@@ -20,6 +22,14 @@ pub fn render<'a>() -> Layout<'a, DynRender<'a>> {
         }
         a[href="https://www.linkedin.com/in/christopherjmill", class="underline mx-1"] {
           "LinkedIn"
+        }
+        div[class="my-6"] {
+          h1 [class="text-2xl"] {
+            "Most Recent Blog Post"
+          }
+          a[class="text-xl font-semibold underline", href={format!("/blog/{}", &recent_post.post_url)}] {
+            { &recent_post.title }
+          }
         }
       }
     }
