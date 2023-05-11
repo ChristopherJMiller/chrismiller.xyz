@@ -25,7 +25,7 @@ COPY --from=BUILDER /usr/lib/libpq.so.5 /app/
 COPY --from=BUILDER /lib/libssl.so.3 /app/
 COPY --from=BUILDER /lib/ld-musl-x86_64.so.1 /app/
 COPY --from=BUILDER /lib/libcrypto.so.3 /app/
-COPY --from=BUILDER /lib/ld-musl-x86_64.so.1  => /app/libc.musl-x86_64.so.1 
+COPY --from=BUILDER /lib/ld-musl-x86_64.so.1 /app/libc.musl-x86_64.so.1 
 
 COPY --from=BUILDER /app/public /app/public
 COPY --from=CSSBUILDER /app/dist /app/dist
