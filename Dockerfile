@@ -16,6 +16,8 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/target cargo install --locked --root install --path .
 
+RUN ldd /app/install/bin/chrismiller-xyz
+
 FROM gcr.io/distroless/cc
 
 COPY --from=BUILDER /usr/lib /usr/lib
