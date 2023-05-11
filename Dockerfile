@@ -10,7 +10,7 @@ FROM docker.io/rust:alpine as BUILDER
 
 WORKDIR /app
 
-RUN apk add --update build-base
+RUN apk add --update build-base libpq
 
 ADD . .
 
