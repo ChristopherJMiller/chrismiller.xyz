@@ -8,46 +8,16 @@ use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::{async_trait, Json};
 use bb8::{PooledConnection, RunError};
-use diesel::{Connection, ConnectionError, ConnectionResult, PgConnection};
+use diesel::{Connection, PgConnection};
 use diesel_async::pooled_connection::{AsyncDieselConnectionManager, PoolError};
 use diesel_async::AsyncPgConnection;
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
-use futures_util::future::BoxFuture;
-use futures_util::FutureExt;
 use serde_json::json;
-use tracing::{debug, info};
+use tracing::{info, debug};
 
 const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
 pub type Pool = bb8::Pool<AsyncDieselConnectionManager<AsyncPgConnection>>;
 pub type ConnectionFromPool = PooledConnection<'static, AsyncDieselConnectionManager<AsyncPgConnection>>;
-
-pub fn establish_connection(config: &str) -> BoxFuture<ConnectionResult<AsyncPgConnection>> {
-  let fut = async {
-    let rustls_config = rustls::ClientConfig::builder()
-      .with_safe_defaults()
-      .with_root_certificates(root_certs())
-      .with_no_client_auth();
-    let tls = tokio_postgres_rustls::MakeRustlsConnect::new(rustls_config);
-    let (client, conn) = tokio_postgres::connect(config, tls)
-      .await
-      .map_err(|e| ConnectionError::BadConnection(e.to_string()))?;
-    tokio::spawn(async move {
-      if let Err(e) = conn.await {
-        eprintln!("Database connection: {e}");
-      }
-    });
-    AsyncPgConnection::try_from(client).await
-  };
-  fut.boxed()
-}
-
-pub fn root_certs() -> rustls::RootCertStore {
-  let mut roots = rustls::RootCertStore::empty();
-  let certs = rustls_native_certs::load_native_certs().expect("Certs not loadable!");
-  let certs: Vec<_> = certs.into_iter().map(|cert| cert.0).collect();
-  roots.add_parsable_certificates(&certs);
-  roots
-}
 
 pub fn get_db_url() -> String {
   if let Ok(url) = env::var("DATABASE_URL") {

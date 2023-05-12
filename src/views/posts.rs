@@ -1,7 +1,8 @@
 use markup::DynRender;
 
-use super::Layout;
 use crate::models::posts::Post;
+
+use super::Layout;
 
 #[inline(always)]
 pub fn render<'a>(posts: Vec<Post>) -> Layout<'a, DynRender<'a>> {
@@ -24,9 +25,9 @@ pub fn render<'a>(posts: Vec<Post>) -> Layout<'a, DynRender<'a>> {
             p {
               { &post.description() }
             }
-          }
+          }        
         }
       }
-    },
+    }
   }
 }

@@ -20,8 +20,3 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 markup = "0.13"
 chrono = { version = "0.4", features = ["serde"] }
 rss = { version = "2.0", features = ["with-serde"] }
-futures-util = "0.3"
-rustls = "0.20"
-rustls-native-certs = "0.6"
-tokio-postgres = "0.7"
-tokio-postgres-rustls = "0.9"
