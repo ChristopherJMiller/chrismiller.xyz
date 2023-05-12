@@ -30,7 +30,7 @@ pub fn get_db_url() -> String {
     let host = env::var("DATABASE_HOST").expect("Failed to find DATABASE_HOST");
     let db = env::var("DATABASE_DB").expect("Failed to find DATABASE_DB");
 
-    format!("postgress://{username}:{password}@{host}/{db}")
+    format!("postgres://{username}:{password}@{host}/{db}")
   }
 }
 
