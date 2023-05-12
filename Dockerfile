@@ -16,7 +16,7 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/target cargo install --locked --root install --path .
 
-RUN ldd /app/install/bin/chrismiller-xyz | grep "/lib" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; done;
+RUN ldd /app/install/bin/chrismiller-xyz | grep "/lib" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; echo "$line"; done;
 
 FROM gcr.io/distroless/cc
 
