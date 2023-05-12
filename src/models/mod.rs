@@ -13,7 +13,7 @@ use diesel_async::pooled_connection::{AsyncDieselConnectionManager, PoolError};
 use diesel_async::AsyncPgConnection;
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 use serde_json::json;
-use tracing::info;
+use tracing::{info, debug};
 
 const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
 pub type Pool = bb8::Pool<AsyncDieselConnectionManager<AsyncPgConnection>>;
@@ -54,7 +54,7 @@ where
 
   async fn from_request_parts(_parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
     let pool = Pool::from_ref(state);
-
+    debug!("Getting connection");
     let conn = pool.get_owned().await.map_err(internal_error)?;
 
     Ok(Self(conn))

@@ -1,6 +1,7 @@
 use std::net::SocketAddr;
 
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
@@ -25,9 +26,15 @@ async fn main() {
 
   let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
   let pool = bb8::Pool::builder()
+    .max_size(5)
     .build(config)
     .await
     .expect("Failed to build database pool");
+
+  {
+    info!("Getting a testing pool connection");
+    let _ = pool.get().await;
+  }
 
   let app = build_router(pool);
 
