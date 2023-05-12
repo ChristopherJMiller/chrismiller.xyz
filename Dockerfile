@@ -18,7 +18,6 @@ RUN --mount=type=cache,target=/app/target cargo install --locked --root install 
 
 RUN ldd /app/install/bin/chrismiller-xyz
 RUN ldd /app/install/bin/chrismiller-xyz | grep "/" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; echo "$line"; done;
-RUN find / -name libpq.so.5 | while read -r line ; do cp $line /app/install/bin/; echo "$line"; done;
 
 RUN ls -l /app/install/bin/
 
@@ -28,5 +27,4 @@ COPY --from=BUILDER /app/install/bin /app/
 COPY --from=BUILDER /app/public /app/public
 COPY --from=CSSBUILDER /app/dist /app/dist
 
-CMD ["/app/chrismiller-xyz"]
-
+CMD ["LD_LIBRARY_PATH=/app/", "/app/chrismiller-xyz"]
