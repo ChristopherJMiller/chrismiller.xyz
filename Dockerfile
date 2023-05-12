@@ -6,11 +6,11 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/node_modules yarn install && NODE_ENV=production yarn build
 
-FROM docker.io/rust:alpine as BUILDER
+FROM docker.io/rust:1.69-slim as BUILDER
 
 WORKDIR /app
 
-RUN apk add --update build-base postgresql-dev
+RUN apt-get update && apt-get install -y pkg-config libpq-dev openssl libssl-dev libclang-dev llvm
 
 ADD . .
 
