@@ -13,7 +13,7 @@ pub mod models;
 pub mod schema;
 mod views;
 
-#[tokio::main]
+#[tokio::main(flavor = "multi_thread", worker_threads = 10)]
 async fn main() {
   tracing_subscriber::registry()
     .with(tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| "chrismiller_xyz=debug,tower_http=debug".into()))
@@ -26,7 +26,7 @@ async fn main() {
 
   let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
   let pool = bb8::Pool::builder()
-    .max_size(5)
+    .max_size(15)
     .build(config)
     .await
     .expect("Failed to build database pool");
