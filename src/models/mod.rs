@@ -1,5 +1,7 @@
 pub mod posts;
 
+use std::env;
+
 use axum::extract::{FromRef, FromRequestParts};
 use axum::http::request::Parts;
 use axum::http::StatusCode;
@@ -16,6 +18,21 @@ use tracing::info;
 const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
 pub type Pool = bb8::Pool<AsyncDieselConnectionManager<AsyncPgConnection>>;
 pub type ConnectionFromPool = PooledConnection<'static, AsyncDieselConnectionManager<AsyncPgConnection>>;
+
+pub fn get_db_url() -> String {
+  if let Ok(url) = env::var("DATABASE_URL") {
+    info!("Database Connection String Provided");
+    url
+  } else {
+    info!("Building Connection String from Parts");
+    let username = env::var("DATABASE_USER").expect("Failed to find DATABASE_USER");
+    let password = env::var("DATABASE_PASS").expect("Failed to find DATABASE_PASS");
+    let host = env::var("DATABASE_HOST").expect("Failed to find DATABASE_HOST");
+    let db = env::var("DATABASE_DB").expect("Failed to find DATABASE_DB");
+
+    format!("postgress://{username}:{password}@{host}/{db}")
+  }
+}
 
 pub fn run_migrations(db_url: &str) {
   info!("Running any pending Migrations");

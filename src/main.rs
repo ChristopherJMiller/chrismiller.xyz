@@ -5,7 +5,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
 use crate::controllers::build_router;
-use crate::models::run_migrations;
+use crate::models::{run_migrations, get_db_url};
 
 mod controllers;
 pub mod models;
@@ -19,7 +19,7 @@ async fn main() {
     .with(tracing_subscriber::fmt::layer())
     .init();
 
-  let db_url = std::env::var("DATABASE_URL").expect("DATABASE_URL not defined");
+  let db_url = get_db_url();
 
   run_migrations(&db_url);
 
