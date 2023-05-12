@@ -17,8 +17,8 @@ pub fn build_router(pool: Pool) -> Router {
     .route("/rss.xml", get(posts::rss))
 
     // Asset Serving
-    .nest_service("/assets", ServeDir::new("./dist"))
-    .nest_service("/public", ServeDir::new("./public"))
+    .nest_service("/assets", ServeDir::new("dist"))
+    .nest_service("/public", ServeDir::new("public"))
     .layer(TraceLayer::new_for_http())
     .with_state(pool)
 }

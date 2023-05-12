@@ -22,7 +22,7 @@ RUN ldd /app/install/bin/chrismiller-xyz | grep "/" | cut -d '>' -f 2 | cut -d '
 RUN cp -r /app/public /app/install/bin/public
 COPY --from=CSSBUILDER /app/dist /app/install/bin/dist
 
-RUN ls -l /app/install/bin/
+RUN find /app/install/bin/
 
 FROM gcr.io/distroless/cc
 
