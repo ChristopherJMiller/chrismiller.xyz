@@ -1,0 +1,22 @@
+[package]
+name = "chrismiller-xyz"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.6", features = ["tracing"] }
+axum-macros = "0.3"
+bb8 = "0.8"
+diesel = { version = "2", features = ["postgres", "chrono"] }
+diesel_migrations = "2"
+diesel-async = { version = "0.2", features = ["postgres", "bb8"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full", "rt-multi-thread"] }
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.4.0", features = ["fs", "trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+markup = "0.13"
+chrono = { version = "0.4", features = ["serde"] }
+rss = { version = "2.0", features = ["with-serde"] }

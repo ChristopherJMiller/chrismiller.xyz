@@ -39,3 +39,8 @@ dist/**/*
 build/**/*
 
 public/data/*
+
+__pycache__/
+.vscode/
+target/
+install/
