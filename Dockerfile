@@ -20,10 +20,12 @@ RUN ldd /app/install/bin/chrismiller-xyz
 
 RUN ldd /app/install/bin/chrismiller-xyz | grep "/" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; echo "$line"; done;
 
+RUN ls -l /app/install/bin/
+
 FROM gcr.io/distroless/cc
 
 COPY --from=BUILDER /app/install/bin /app/
-
+COPY --from=BUILDER /usr/lib/aarch64-linux-gnu/libpq.so.5 /app/
 COPY --from=BUILDER /app/public /app/public
 COPY --from=CSSBUILDER /app/dist /app/dist
 
