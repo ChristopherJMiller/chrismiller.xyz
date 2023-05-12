@@ -1,8 +1,9 @@
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, format::Fixed, Utc};
 use diesel::prelude::*;
 use diesel_async::RunQueryDsl;
 use rss::Item;
 use serde::Serialize;
+use tracing::debug;
 
 use super::{ConnectionFromPool, DatabaseError};
 
@@ -73,7 +74,7 @@ impl Into<Item> for Post {
       title: Some(self.title.clone()),
       link: Some(format!("https://chrismiller.xyz/blog/{}", self.post_url)),
       description: Some(self.description().clone()),
-      pub_date: Some(self.posted.format("%+").to_string()),
+      pub_date: Some(self.posted.and_local_timezone(Utc).unwrap().to_rfc2822()),
       ..Default::default()
     }
   }
