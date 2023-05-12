@@ -26,13 +26,13 @@ async fn main() {
 
   let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
   let pool = bb8::Pool::builder()
-    .max_size(15)
+    .min_idle(Some(1))
     .build(config)
     .await
     .expect("Failed to build database pool");
 
   {
-    info!("Getting a testing pool connection");
+    info!("Testing pool connection");
     let _ = pool.get().await;
   }
 
