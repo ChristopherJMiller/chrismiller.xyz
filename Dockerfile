@@ -19,6 +19,8 @@ RUN --mount=type=cache,target=/app/target cargo install --locked --root install 
 RUN ldd /app/install/bin/chrismiller-xyz
 RUN ldd /app/install/bin/chrismiller-xyz | grep "/" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; echo "$line"; done;
 
+RUN ls -l /app
+
 COPY /app/public /app/install/bin/public
 COPY --from=CSSBUILDER /app/dist /app/install/bin/dist
 
