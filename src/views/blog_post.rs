@@ -1,9 +1,7 @@
-
 use markup::DynRender;
 
-use crate::models::posts::Post;
-
 use super::Layout;
+use crate::models::posts::Post;
 
 #[inline(always)]
 pub fn render<'a>(post: &'a Post) -> Layout<'a, DynRender<'a>> {
@@ -22,6 +20,6 @@ pub fn render<'a>(post: &'a Post) -> Layout<'a, DynRender<'a>> {
           @markup::raw(&post.body)
         }
       }
-    }
+    },
   }
 }

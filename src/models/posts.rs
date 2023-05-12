@@ -58,12 +58,7 @@ impl Post {
   pub async fn get_all_posts<'a>(conn: &mut ConnectionFromPool) -> Result<Vec<Post>, DatabaseError> {
     use crate::schema::posts::dsl::*;
 
-    Ok(
-      posts
-        .load(conn)
-        .await
-        .map_err(DatabaseError::DieselError)?,
-    )
+    Ok(posts.load(conn).await.map_err(DatabaseError::DieselError)?)
   }
 }
 

@@ -1,8 +1,7 @@
 use markup::DynRender;
 
-use crate::models::posts::Post;
-
 use super::Layout;
+use crate::models::posts::Post;
 
 #[inline(always)]
 pub fn render<'a>(recent_post: &'a Post) -> Layout<'a, DynRender<'a>> {
@@ -10,8 +9,8 @@ pub fn render<'a>(recent_post: &'a Post) -> Layout<'a, DynRender<'a>> {
     location: "/",
     title: "Home",
     body: markup::new! {
-      h1[class="text-4xl font-bold text-center mt-8"] { 
-        "Chris Miller" 
+      h1[class="text-4xl font-bold text-center mt-8"] {
+        "Chris Miller"
       }
       p[class="text-center italic"] {
         "Computer Engineer / UX Designer / Maker"
@@ -32,6 +31,6 @@ pub fn render<'a>(recent_post: &'a Post) -> Layout<'a, DynRender<'a>> {
           }
         }
       }
-    }
+    },
   }
 }

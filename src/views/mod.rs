@@ -1,6 +1,6 @@
-pub mod posts;
-pub mod index;
 pub mod blog_post;
+pub mod index;
+pub mod posts;
 
 markup::define! {
   NavItem<'a>(location: &'a str, title: &'a str, path: &'a str) {

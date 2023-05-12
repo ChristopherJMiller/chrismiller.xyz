@@ -5,8 +5,8 @@ use tower_http::trace::TraceLayer;
 
 use crate::models::Pool;
 
-mod posts;
 mod index;
+mod posts;
 
 pub fn build_router(pool: Pool) -> Router {
   Router::new()
