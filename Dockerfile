@@ -27,4 +27,6 @@ COPY --from=BUILDER /app/install/bin /app/
 COPY --from=BUILDER /app/public /app/public
 COPY --from=CSSBUILDER /app/dist /app/dist
 
-CMD ["LD_LIBRARY_PATH=/app/", "/app/chrismiller-xyz"]
+ENV LD_LIBRARY_PATH="/app/"
+
+CMD ["/app/chrismiller-xyz"]
