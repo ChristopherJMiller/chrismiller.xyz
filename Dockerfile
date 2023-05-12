@@ -16,16 +16,11 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/target cargo install --locked --root install --path .
 
-RUN ldd /app/install/bin/chrismiller-xyz
+RUN ldd /app/install/bin/chrismiller-xyz | grep "/lib" | cut -d '>' -f 2 | cut -d '(' -f 1 | while read -r line ; do cp $line /app/install/bin/; done;
 
 FROM gcr.io/distroless/cc
 
 COPY --from=BUILDER /app/install/bin /app/
-COPY --from=BUILDER /usr/lib/libpq.so.5 /app/
-COPY --from=BUILDER /lib/libssl.so.3 /app/
-COPY --from=BUILDER /lib/ld-musl-x86_64.so.1 /app/
-COPY --from=BUILDER /lib/libcrypto.so.3 /app/
-COPY --from=BUILDER /lib/ld-musl-x86_64.so.1 /app/libc.musl-x86_64.so.1 
 
 COPY --from=BUILDER /app/public /app/public
 COPY --from=CSSBUILDER /app/dist /app/dist
