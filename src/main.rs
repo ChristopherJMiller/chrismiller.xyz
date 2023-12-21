@@ -1,12 +1,13 @@
-use std::net::SocketAddr;
-
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use std::io;
+use std::io::BufRead;
+use std::net::SocketAddr;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
 use crate::controllers::build_router;
-use crate::models::{run_migrations, get_db_url};
+use crate::models::{get_db_url, run_migrations};
 
 mod controllers;
 pub mod models;
@@ -16,16 +17,20 @@ mod views;
 #[tokio::main(flavor = "multi_thread", worker_threads = 10)]
 async fn main() {
   tracing_subscriber::registry()
-    .with(tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| "chrismiller_xyz=debug,tower_http=debug".into()))
+    .with(
+      tracing_subscriber::EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| "chrismiller_xyz=debug,tower_http=debug".into()),
+    )
     .with(tracing_subscriber::fmt::layer())
     .init();
 
-  let db_url = get_db_url();
+  let possibly_stdin_db_url = io::stdin().lock().lines().next();
+  let db_url = possibly_stdin_db_url.unwrap_or_else(|| Ok(get_db_url())).unwrap();
 
   run_migrations(&db_url);
 
   let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
-  let pool = bb8::Pool::builder()
+  let pool: bb8::Pool<AsyncDieselConnectionManager<diesel_async::AsyncPgConnection>> = bb8::Pool::builder()
     .min_idle(Some(1))
     .build(config)
     .await
