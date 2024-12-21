@@ -27,6 +27,7 @@ markup::define! {
         link[rel="icon", href="/public/favicon.png"];
         link[rel="stylesheet", href="/assets/main.css"];
         link[rel="me", href="https://tech.lgbt/@alumux"];
+        link[rel="me", href="https://void.lgbt/alumux"];
       }
       body[class="bg-stone-50 dark:bg-stone-800 text-black dark:text-slate-200"] {
         div[class="container mx-auto my-2"] {
