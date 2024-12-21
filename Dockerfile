@@ -6,7 +6,7 @@ ADD . .
 
 RUN --mount=type=cache,target=/app/node_modules yarn install && NODE_ENV=production yarn build
 
-FROM docker.io/rust:1.69-slim as BUILDER
+FROM docker.io/rust:1-slim as BUILDER
 
 WORKDIR /app
 
