@@ -13,8 +13,9 @@ mod controllers;
 pub mod models;
 pub mod schema;
 mod views;
+mod utils;
 
-#[tokio::main(flavor = "multi_thread", worker_threads = 10)]
+#[tokio::main(flavor = "multi_thread")]
 async fn main() {
   tracing_subscriber::registry()
     .with(

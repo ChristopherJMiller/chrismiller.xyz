@@ -30,7 +30,7 @@ markup::define! {
         link[rel="me", href="https://void.lgbt/alumux"];
       }
       body[class="bg-stone-50 dark:bg-stone-800 text-black dark:text-slate-200"] {
-        div[class="container mx-auto my-2"] {
+        div[class="max-w-2xl mx-auto px-2 my-2"] {
           div[class="flex justify-center py-4"] {
             a[href="/"] {
               img[class="object-none object-center rounded", src="/public/img/me.jpg", alt="Photo of Chris Miller"];

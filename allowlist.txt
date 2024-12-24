@@ -11,3 +11,4 @@ font-mono
 ml-4
 list-disc
 list-decimal
+max-w-2xl
