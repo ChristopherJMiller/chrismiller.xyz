@@ -32,7 +32,7 @@ pub fn render<'a>(recent_posts: &Vec<Post>) -> Layout<'a, DynRender<'a>> {
       p[class="my-2"] {
         "I'm a software engineer interested in distributed systems and making technology whimsical. "
         "I am currently based out of Seattle and work for Microsoft as a R&D tech lead. "
-        "I love to experiment with techology and am a serial project starter. "
+        "I love to experiment with technology and am a serial project starter. "
         "Follow my "
         a[href="/posts", class="underline"] {
           "blog"
