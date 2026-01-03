@@ -44,3 +44,6 @@ __pycache__/
 .vscode/
 target/
 install/
+
+# Nix/direnv
+.direnv/

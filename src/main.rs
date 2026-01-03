@@ -1,6 +1,4 @@
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
-use std::io;
-use std::io::BufRead;
 use std::net::SocketAddr;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
@@ -25,8 +23,7 @@ async fn main() {
     .with(tracing_subscriber::fmt::layer())
     .init();
 
-  let possibly_stdin_db_url = io::stdin().lock().lines().next();
-  let db_url = possibly_stdin_db_url.unwrap_or_else(|| Ok(get_db_url())).unwrap();
+  let db_url = get_db_url();
 
   run_migrations(&db_url);
 
