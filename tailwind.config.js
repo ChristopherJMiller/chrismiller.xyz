@@ -1,6 +1,5 @@
 module.exports = {
-  content: ['./src/**/*.rs', './allowlist.txt'],
-  theme: { 
+  theme: {
     extend: {},
     container: {
       center: true,
@@ -12,6 +11,6 @@ module.exports = {
         '2xl': '6rem',
       },
     },
-  },  
+  },
   plugins: [],
 }

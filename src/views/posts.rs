@@ -29,8 +29,8 @@ pub fn render<'a>(posts: Vec<Post>) -> Layout<'a, DynRender<'a>> {
             p {
               { &post.format_date() }
             }
-            p {
-              { &post.description() }
+            div {
+              @markup::raw(&post.rendered_description())
             }
           }
         }
