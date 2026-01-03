@@ -1,9 +1,8 @@
-use chrono::{NaiveDateTime, format::Fixed, Utc};
+use chrono::{NaiveDateTime, Utc};
 use diesel::prelude::*;
 use diesel_async::RunQueryDsl;
 use rss::Item;
 use serde::Serialize;
-use tracing::debug;
 
 use super::{ConnectionFromPool, DatabaseError};
 
