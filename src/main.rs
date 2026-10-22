@@ -1,11 +1,11 @@
-use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use diesel_async::pooled_connection::{AsyncDieselConnectionManager, ManagerConfig};
 use std::net::SocketAddr;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
 use crate::controllers::build_router;
-use crate::models::{get_db_url, run_migrations};
+use crate::models::{establish_tls, get_db_url, run_migrations, tls_connector};
 
 mod controllers;
 pub mod models;
@@ -27,7 +27,10 @@ async fn main() {
 
   run_migrations(&db_url);
 
-  let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new(db_url);
+  let tls = tls_connector();
+  let mut manager_config = ManagerConfig::default();
+  manager_config.custom_setup = Box::new(move |url| establish_tls(url, tls.clone()));
+  let config = AsyncDieselConnectionManager::<diesel_async::AsyncPgConnection>::new_with_config(db_url, manager_config);
   let pool: bb8::Pool<AsyncDieselConnectionManager<diesel_async::AsyncPgConnection>> = bb8::Pool::builder()
     .min_idle(Some(1))
     .build(config)

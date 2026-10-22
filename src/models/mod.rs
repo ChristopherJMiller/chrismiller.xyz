@@ -8,10 +8,13 @@ use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::{async_trait, Json};
 use bb8::{PooledConnection, RunError};
-use diesel::{Connection, PgConnection};
+use diesel::{Connection, ConnectionError, ConnectionResult, PgConnection};
 use diesel_async::pooled_connection::{AsyncDieselConnectionManager, PoolError};
 use diesel_async::AsyncPgConnection;
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use futures_util::future::BoxFuture;
+use futures_util::FutureExt;
+use postgres_native_tls::MakeTlsConnector;
 use serde_json::json;
 use tracing::{info, debug};
 
@@ -30,8 +33,30 @@ pub fn get_db_url() -> String {
     let host = env::var("DATABASE_HOST").expect("Failed to find DATABASE_HOST");
     let db = env::var("DATABASE_DB").expect("Failed to find DATABASE_DB");
 
-    format!("postgres://{username}:{password}@{host}/{db}")
+    // sslmode=require: both the libpq migration connection and the async pool refuse plaintext.
+    format!("postgres://{username}:{password}@{host}/{db}?sslmode=require")
   }
+}
+
+/// TLS for the async pool, with libpq `sslmode=require` semantics: the session is encrypted,
+/// but the server certificate is not verified, because Spilo serves a self-signed one.
+pub fn tls_connector() -> MakeTlsConnector {
+  let connector = native_tls::TlsConnector::builder()
+    .danger_accept_invalid_certs(true)
+    .build()
+    .expect("Failed to build TLS connector");
+  MakeTlsConnector::new(connector)
+}
+
+/// Opens a pooled connection over TLS: the pool's `ManagerConfig::custom_setup`.
+pub fn establish_tls(url: &str, tls: MakeTlsConnector) -> BoxFuture<'_, ConnectionResult<AsyncPgConnection>> {
+  async move {
+    let (client, connection) = tokio_postgres::connect(url, tls)
+      .await
+      .map_err(|e| ConnectionError::BadConnection(e.to_string()))?;
+    AsyncPgConnection::try_from_client_and_connection(client, connection).await
+  }
+  .boxed()
 }
 
 pub fn run_migrations(db_url: &str) {
