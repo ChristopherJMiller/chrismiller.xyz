@@ -1,4 +1,4 @@
-FROM docker.io/node:19-alpine as CSSBUILDER
+FROM docker.io/node:20-alpine as CSSBUILDER
 
 WORKDIR /app
 
